@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="lv">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Hybrid Token Auth Prototype</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="container">
+      <section class="card">
+        <h1>Hybrid Token Authentication Prototype</h1>
+        <p>
+          Frontend nosūta pieprasījumu uz backend. Pieprasījums iziet API Gateway,
+          token introspection un OAuth 2.0 autorizācijas pārbaudi. Pēc tam tiek izdots JWT
+          access token un refresh token HttpOnly sīkdatnē.
+        </p>
+
+        <label>
+          Username
+          <input id="username" value="demo" />
+        </label>
+
+        <label>
+          Password
+          <input id="password" type="password" value="Password123!" />
+        </label>
+
+        <label>
+          External OAuth token
+          <input id="externalToken" value="external-valid-token" />
+        </label>
+
+        <label>
+          Client ID
+          <input id="clientId" value="bachelor-client" />
+        </label>
+
+        <div class="actions">
+          <button id="loginButton">Login</button>
+          <button id="profileButton">Get protected profile</button>
+          <button id="refreshButton">Refresh access token</button>
+          <button id="logoutButton">Logout</button>
+        </div>
+      </section>
+
+      <section class="card">
+        <h2>Access token</h2>
+        <pre id="tokenOutput">No access token yet.</pre>
+      </section>
+
+      <section class="card">
+        <h2>Server response</h2>
+        <pre id="responseOutput">No response yet.</pre>
+      </section>
+    </main>
+
+    <script src="/main.js"></script>
+  </body>
+</html>

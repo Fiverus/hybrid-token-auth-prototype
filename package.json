@@ -1,0 +1,33 @@
+{
+  "name": "hybrid-token-auth-prototype",
+  "version": "1.0.0",
+  "description": "Hybrid token-based authentication prototype: frontend -> API Gateway -> backend -> token introspection -> OAuth 2.0 check -> JWT access token + HttpOnly refresh token.",
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "test": "node --test"
+  },
+  "keywords": [
+    "jwt",
+    "oauth2",
+    "token-introspection",
+    "api-gateway",
+    "refresh-token",
+    "httponly-cookie"
+  ],
+  "author": "Vladislavs Fedins",
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "helmet": "^8.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.0",
+    "uuid": "^11.0.5"
+  }
+}
