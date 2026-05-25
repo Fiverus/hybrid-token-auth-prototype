@@ -35,12 +35,19 @@ label {
   font-weight: 700;
 }
 
-input {
+input,
+textarea {
   width: 100%;
   margin-top: 6px;
   padding: 10px 12px;
   border: 1px solid #d1d5db;
   border-radius: 10px;
+}
+
+textarea {
+  min-height: 96px;
+  resize: vertical;
+  font-family: Consolas, "Courier New", monospace;
 }
 
 .actions {

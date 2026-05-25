@@ -7,7 +7,9 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "node --watch src/server.js",
-    "test": "node --test"
+    "test": "node --test",
+    "perf": "node scripts/perf.mjs",
+    "load": "node scripts/load.mjs"
   },
   "keywords": [
     "jwt",

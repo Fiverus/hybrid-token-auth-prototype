@@ -1,8 +1,20 @@
+import path from "node:path";
 import jwt from "jsonwebtoken";
 import { v4 as uuidv4 } from "uuid";
 import { env } from "../config/env.js";
+import { randomToken } from "../utils/crypto.js";
+import { durationToMilliseconds } from "../utils/duration.js";
+import { readJsonFile, writeJsonFile } from "../utils/fileStore.js";
 
-const refreshTokenStore = new Map();
+const refreshStorePath = path.join(env.storageDir, "refresh-tokens.json");
+
+function readRefreshStore() {
+  return readJsonFile(refreshStorePath, {});
+}
+
+function writeRefreshStore(value) {
+  writeJsonFile(refreshStorePath, value);
+}
 
 export function generateAccessToken(user, scope) {
   return jwt.sign(
@@ -24,6 +36,7 @@ export function generateAccessToken(user, scope) {
 
 export function generateRefreshToken(user) {
   const tokenId = uuidv4();
+  const refreshStore = readRefreshStore();
 
   const refreshToken = jwt.sign(
     {
@@ -39,11 +52,12 @@ export function generateRefreshToken(user) {
     }
   );
 
-  refreshTokenStore.set(tokenId, {
+  refreshStore[tokenId] = {
     userId: user.id,
     revoked: false,
     createdAt: new Date()
-  });
+  };
+  writeRefreshStore(refreshStore);
 
   return refreshToken;
 }
@@ -61,7 +75,8 @@ export function verifyRefreshToken(refreshToken) {
     audience: "prototype-refresh"
   });
 
-  const record = refreshTokenStore.get(payload.tokenId);
+  const refreshStore = readRefreshStore();
+  const record = refreshStore[payload.tokenId];
 
   if (!record || record.revoked) {
     const error = new Error("Refresh token is revoked or unknown.");
@@ -79,13 +94,28 @@ export function revokeRefreshToken(refreshToken) {
       audience: "prototype-refresh"
     });
 
-    const record = refreshTokenStore.get(payload.tokenId);
+    const refreshStore = readRefreshStore();
+    const record = refreshStore[payload.tokenId];
 
     if (record) {
       record.revoked = true;
-      refreshTokenStore.set(payload.tokenId, record);
+      refreshStore[payload.tokenId] = record;
+      writeRefreshStore(refreshStore);
     }
   } catch {}
+}
+
+export function buildCsrfCookieOptions() {
+  return {
+    httpOnly: false,
+    secure: env.cookieSecure,
+    sameSite: env.cookieSameSite,
+    path: "/api/auth"
+  };
+}
+
+export function generateCsrfToken() {
+  return randomToken(24);
 }
 
 export function buildRefreshCookieOptions() {
@@ -94,6 +124,6 @@ export function buildRefreshCookieOptions() {
     secure: env.cookieSecure,
     sameSite: env.cookieSameSite,
     path: "/api/auth",
-    maxAge: 7 * 24 * 60 * 60 * 1000
+    maxAge: durationToMilliseconds(env.refreshTokenTtl, 7 * 24 * 60 * 60 * 1000)
   };
 }

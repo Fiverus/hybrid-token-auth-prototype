@@ -1,0 +1,16 @@
+[
+  {
+    "id": "provider-user-1",
+    "sub": "provider-user-1",
+    "username": "demo",
+    "passwordHash": "$2a$10$RknOLgX8DQTSHisqe8AtzO0mN8SFyD.ZeUnU/OD9aDTi.tC92UEYm",
+    "fullName": "Demo Provider User"
+  },
+  {
+    "id": "provider-user-2",
+    "sub": "provider-user-2",
+    "username": "admin",
+    "passwordHash": "$2a$10$Uu/pZb97FxsDrVAjxG/n8e64bPloytCzOwlqGXp3/gPmk9Y.F7ZYi",
+    "fullName": "Admin Provider User"
+  }
+]

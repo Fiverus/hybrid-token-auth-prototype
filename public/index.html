@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="lv">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -11,34 +11,60 @@
       <section class="card">
         <h1>Hybrid Token Authentication Prototype</h1>
         <p>
-          Frontend nosūta pieprasījumu uz backend. Pieprasījums iziet API Gateway,
-          token introspection un OAuth 2.0 autorizācijas pārbaudi. Pēc tam tiek izdots JWT
-          access token un refresh token HttpOnly sīkdatnē.
+          This demo combines a local login flow with a separate OIDC provider. First obtain
+          external provider tokens through authorization code + PKCE. Then complete the local
+          login to receive the prototype's internal JWT access token and refresh-token cookie.
         </p>
 
         <label>
-          Username
+          Local Username
           <input id="username" value="demo" />
         </label>
 
         <label>
-          Password
+          Local Password
           <input id="password" type="password" value="Password123!" />
         </label>
 
-        <label>
-          External OAuth token
-          <input id="externalToken" value="external-valid-token" />
-        </label>
+        <div class="card" style="padding: 16px; margin: 18px 0 0;">
+          <h2 style="margin-bottom: 12px;">External Provider</h2>
+          <p id="providerStatus">No external provider session yet.</p>
+          <button id="providerButton" type="button">Authenticate with external provider</button>
 
-        <label>
-          Client ID
-          <input id="clientId" value="bachelor-client" />
-        </label>
+          <p style="margin: 14px 0 8px;">
+            The fields below are auto-populated after provider authentication and remain editable
+            for thesis/demo scenarios that show the external token inputs explicitly.
+          </p>
+
+          <label>
+            Client ID
+            <input id="clientId" value="bachelor-client" />
+          </label>
+
+          <label>
+            External Access Token
+            <textarea id="externalAccessToken"></textarea>
+          </label>
+
+          <details style="margin-top: 12px;">
+            <summary style="cursor: pointer; font-weight: 700;">Advanced OIDC Fields</summary>
+
+            <label>
+              ID Token
+              <textarea id="idToken"></textarea>
+            </label>
+
+            <label>
+              OIDC Nonce
+              <input id="oidcNonce" />
+            </label>
+          </details>
+        </div>
 
         <div class="actions">
           <button id="loginButton">Login</button>
           <button id="profileButton">Get protected profile</button>
+          <button id="adminButton">Get admin resource</button>
           <button id="refreshButton">Refresh access token</button>
           <button id="logoutButton">Logout</button>
         </div>
@@ -47,6 +73,11 @@
       <section class="card">
         <h2>Access token</h2>
         <pre id="tokenOutput">No access token yet.</pre>
+      </section>
+
+      <section class="card">
+        <h2>External OIDC tokens</h2>
+        <pre id="oidcOutput">No external tokens yet.</pre>
       </section>
 
       <section class="card">

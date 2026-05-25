@@ -1,0 +1,34 @@
+{
+  "generatedAt": "2026-05-23T13:56:48.656Z",
+  "iterations": 500,
+  "summary": [
+    {
+      "scenario": "login",
+      "iterations": 500,
+      "minMs": "61.96",
+      "avgMs": "64.74",
+      "maxMs": "97.90"
+    },
+    {
+      "scenario": "protected_profile",
+      "iterations": 500,
+      "minMs": "1.64",
+      "avgMs": "2.20",
+      "maxMs": "7.37"
+    },
+    {
+      "scenario": "refresh",
+      "iterations": 500,
+      "minMs": "7.35",
+      "avgMs": "9.77",
+      "maxMs": "25.38"
+    },
+    {
+      "scenario": "logout",
+      "iterations": 500,
+      "minMs": "3.44",
+      "avgMs": "4.51",
+      "maxMs": "7.72"
+    }
+  ]
+}

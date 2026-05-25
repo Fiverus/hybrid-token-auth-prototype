@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>OIDC Callback</title>
+  </head>
+  <body>
+    <script>
+      const params = new URLSearchParams(window.location.search);
+      const payload = {
+        type: "oidc-callback",
+        code: params.get("code"),
+        state: params.get("state"),
+        error: params.get("error")
+      };
+
+      try {
+        localStorage.setItem("oidc-callback", JSON.stringify(payload));
+      } catch (error) {
+        console.error("Failed to persist OIDC callback payload.", error);
+      }
+
+      if (window.opener) {
+        window.opener.postMessage(payload, window.location.origin);
+      }
+
+      window.close();
+    </script>
+  </body>
+</html>
